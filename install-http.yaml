@@ -1,0 +1,19 @@
+---
+- hosts: server
+   
+  tasks:
+    - name: installing Httpd
+      yum: pkg=httpd state=installed
+      become: true
+
+    - name: start HTTP service
+      service: name=httpd state=started
+      become: true
+      register: httpd_output
+
+    - name: printing Httpd output
+      debug: var=httpd_output
+
+    - name: printing the status
+      debug: msg="Automation is successful"
+      when: httpd_output is succeeded
